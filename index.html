@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container message__container hidden" aria-live="polite">
+      <p class="message__message"></p>
+      <button class="btn btn--back message__btn" type="button">Back</button>
+    </div>
+    <div class="container">
+      <form method="POST" id="form">
+        <fieldset>
+          <legend>Answer me these questions three</legend>
+          <div>
+            <label for="name">What is your name?<span>*</span></label>
+            <input type="text" id="name" name="user_name" value="" required />
+          </div>
+          <div>
+            <label for="quest">What is your quest?<span>*</span></label>
+            <input type="text" id="quest" name="user_quest" value="" />
+          </div>
+          <div>
+            <label for="colour"
+              >What is your favorite colour?<span>*</span></label
+            >
+            <input type="text" id="colour" name="user_colour" value="" />
+          </div>
+        </fieldset>
+        <button type="submit">Answer now</button>
+      </form>
+    </div>
+  </body>
+  <!-- <script src="fp.js"></script> -->
+  <script src="oop.js"></script>
+</html>

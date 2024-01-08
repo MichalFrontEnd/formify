@@ -1,0 +1,34 @@
+body {
+  height: 100vh;
+  position: relative;
+}
+
+body,
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+fieldset {
+  padding: 3rem;
+}
+
+fieldset div,
+fieldset {
+  margin-block-end: 1.5rem;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.container {
+  position: absolute;
+  height: min-content;
+}
+
+.message__container {
+  z-index: 5;
+}
