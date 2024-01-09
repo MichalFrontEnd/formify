@@ -84,7 +84,7 @@ class oopForm {
       .then(() => {
         if (this.validateInputs(this.inputElements)) {
           if (this.isValidColour(colour)) {
-            this.showMessage("Form submitted successfully!");
+            this.showMessage("Ugh, very well...");
           } else {
             this.showMessage(this.failMessage);
           }

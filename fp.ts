@@ -82,7 +82,7 @@ const tsHandleSubmit = (e: Event): void => {
     .then(() => {
       if (validateInputs(tsInputElements)) {
         if (isValidColour(colour)) {
-          showMessage("Form submitted successfully!");
+          showMessage("Ugh, very well...");
         } else {
           showMessage(tsFailMessage);
         }

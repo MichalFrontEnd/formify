@@ -73,7 +73,7 @@ const handleSubmit = (e) => {
     .then(() => {
       if (validateInputs(inputElements)) {
         if (isValidColour(colour)) {
-          showMessage("Form submitted successfully!");
+          showMessage("Ugh, very well...");
         } else {
           showMessage(failMessage);
         }

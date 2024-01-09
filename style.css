@@ -4,20 +4,11 @@ body {
 }
 
 body,
-form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-fieldset {
-  padding: 3rem;
-}
-
-fieldset div,
-fieldset {
-  margin-block-end: 1.5rem;
 }
 
 .hidden {
