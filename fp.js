@@ -5,7 +5,10 @@ const messageContainer = document.querySelector(".message__container");
 const successMessage = document.querySelector(".message__message");
 const failMessage = "You shall not pass!";
 const backButton = document.querySelector(".message__btn");
+const validColours = ["blue", "fuchsia", "coral"]; //only these colours will be accepted
+const onlyLettersRegex = /^[a-zA-Z]+$/; //regex that only includes letters
 
+// tests for empty fields
 const validateInputs = (inputs) => {
   for (const input of inputs) {
     if (!input.value) {
@@ -21,8 +24,8 @@ const validateInputs = (inputs) => {
   return true;
 };
 
+// tests for non-text responses
 const validateText = (input) => {
-  const onlyLettersRegex = /^[a-zA-Z]+$/;
   if (!onlyLettersRegex.test(input)) {
     alert("Answers should only contain letters.");
     return false;
@@ -30,8 +33,8 @@ const validateText = (input) => {
   return true;
 };
 
+// tests if the colour appears in the validColours array. Other colours fail
 const isValidColour = (colour) => {
-  const validColours = ["blue", "fuchsia", "coral"];
   return validColours.includes(colour.toLowerCase());
 };
 
@@ -41,6 +44,7 @@ const resetForm = () => {
   messageContainer.classList.add("hidden");
 };
 
+// displays success/fail message and hides form
 const showMessage = (message) => {
   successMessage.textContent = message;
   messageContainer.classList.remove("hidden");
@@ -52,6 +56,7 @@ const backButtonHandler = (e) => {
   resetForm();
 };
 
+// fires fetch and validates form
 const handleSubmit = (e) => {
   e.preventDefault();
 
@@ -62,7 +67,7 @@ const handleSubmit = (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, colour }), // Assuming 'name' should be defined globally or passed as an argument
+    body: JSON.stringify({ colour }), // Assuming 'name' should be defined globally or passed as an argument
   })
     .then((response) => response.json())
     .then(() => {
@@ -80,6 +85,6 @@ const handleSubmit = (e) => {
     });
 };
 
-// Event listeners
+// adds Event listeners
 formElement.addEventListener("submit", handleSubmit);
 backButton.addEventListener("click", backButtonHandler);
