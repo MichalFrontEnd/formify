@@ -53,6 +53,7 @@ class oopForm {
         (_b = this.formElement) === null || _b === void 0 ? void 0 : _b.classList.remove("hidden");
         (_c = this.messageContainer) === null || _c === void 0 ? void 0 : _c.classList.add("hidden");
     }
+    //replaces the button styling
     changeBackButtonClass(isClass, newClass) {
         var _a;
         if ((_a = this.backButton) === null || _a === void 0 ? void 0 : _a.classList.contains(isClass)) {
@@ -60,7 +61,7 @@ class oopForm {
         }
     }
     // displays success/fail message and hides form
-    showMessage(message, isError) {
+    showMessage(message) {
         var _a, _b;
         // Display the message
         if (this.message) {
@@ -68,16 +69,12 @@ class oopForm {
         }
         (_a = this.messageContainer) === null || _a === void 0 ? void 0 : _a.classList.remove("hidden");
         (_b = this.formElement) === null || _b === void 0 ? void 0 : _b.classList.add("hidden");
-        if (isError) {
-            this.changeBackButtonClass(this.successButtonClass, this.failButtonClass);
-        }
-        else {
-            this.changeBackButtonClass(this.failButtonClass, this.successButtonClass);
-        }
     }
+    // resets form and back button
     backButtonHandler(e) {
         e.preventDefault();
         this.resetForm();
+        this.changeBackButtonClass(this.successButtonClass, this.failButtonClass);
     }
     // fires fetch and validates form
     handleSubmit(e) {
@@ -95,10 +92,11 @@ class oopForm {
                     .then((response) => response.json())
                     .then(() => {
                     if (this.isValidColour(colour)) {
-                        this.showMessage(this.successMessage, false);
+                        this.changeBackButtonClass(this.failButtonClass, this.successButtonClass);
+                        this.showMessage(this.successMessage);
                     }
                     else {
-                        this.showMessage(this.failMessage, true);
+                        this.showMessage(this.failMessage);
                     }
                 })
                     .catch((error) => {

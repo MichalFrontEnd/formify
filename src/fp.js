@@ -2,8 +2,11 @@ const formElement = document.querySelector("#form");
 const inputElements = document.querySelectorAll("input");
 const colourField = document.querySelector("#colour");
 const messageContainer = document.querySelector(".message__container");
-const successMessage = document.querySelector(".message__message");
+const message = document.querySelector(".message__message");
 const failMessage = "You shall not pass!";
+const successMessage = "Ugh, very well...";
+const successButtonClass = "btn-outline-primary";
+const failButtonClass = "btn-outline-danger";
 const backButton = document.querySelector(".message__btn");
 const validColours = ["blue", "fuchsia", "coral"]; //only these colours will be accepted
 const onlyLettersRegex = /^[a-zA-Z]+$/; //regex that only includes letters
@@ -44,9 +47,17 @@ const resetForm = () => {
   messageContainer.classList.add("hidden");
 };
 
+const changeBackButtonClass = (isClass, newClass) => {
+  if (backButton.classList.contains(isClass)) {
+    backButton.classList.replace(isClass, newClass);
+  }
+};
+
 // displays success/fail message and hides form
-const showMessage = (message) => {
-  successMessage.textContent = message;
+const showMessage = (messageText) => {
+  if (message) {
+    message.textContent = messageText;
+  }
   messageContainer.classList.remove("hidden");
   formElement.classList.add("hidden");
 };
@@ -54,35 +65,39 @@ const showMessage = (message) => {
 const backButtonHandler = (e) => {
   e.preventDefault();
   resetForm();
+  changeBackButtonClass(successButtonClass, failButtonClass);
 };
 
 // fires fetch and validates form
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  const colour = colourField.value;
+  if (validateInputs(inputElements)) {
+    if (colourField) {
+      const colour = colourField.value;
 
-  fetch("https://jsonplaceholder.typicode.com/posts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ colour }), // Assuming 'name' should be defined globally or passed as an argument
-  })
-    .then((response) => response.json())
-    .then(() => {
-      if (validateInputs(inputElements)) {
-        if (isValidColour(colour)) {
-          showMessage("Ugh, very well...");
-        } else {
-          showMessage(failMessage);
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Handle errors
-    });
+      fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ colour }),
+      })
+        .then((response) => response.json())
+        .then(() => {
+          if (isValidColour(colour)) {
+            showMessage(successMessage);
+            changeBackButtonClass(failButtonClass, successButtonClass);
+          } else {
+            showMessage(failMessage);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle errors
+        });
+    }
+  }
 };
 
 // adds Event listeners

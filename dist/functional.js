@@ -3,8 +3,11 @@ const tsFormElement = document.querySelector("#form");
 const tsInputElements = document.querySelectorAll("input");
 const tsColourField = document.querySelector("#colour");
 const tsMessageContainer = document.querySelector(".message__container");
-const tsSuccessMessage = document.querySelector(".message__message");
+const tsMessage = document.querySelector(".message__message");
 const tsFailMessage = "You shall not pass!";
+const tsSuccessMessage = "Ugh, very well...";
+const tsSuccessButtonClass = "btn-outline-primary";
+const tsFailButtonClass = "btn-outline-danger";
 const tsBackButton = document.querySelector(".message__btn");
 const tsValidColours = ["blue", "fuchsia", "coral"]; //only these colours will be accepted
 const tsOnlyLettersRegex = /^[a-zA-Z]+$/; //regex that only includes letters
@@ -41,10 +44,15 @@ const tsResetForm = () => {
     tsFormElement === null || tsFormElement === void 0 ? void 0 : tsFormElement.classList.remove("hidden");
     tsMessageContainer === null || tsMessageContainer === void 0 ? void 0 : tsMessageContainer.classList.add("hidden");
 };
+const tsChangeBackButtonClass = (isClass, newClass) => {
+    if (tsBackButton === null || tsBackButton === void 0 ? void 0 : tsBackButton.classList.contains(isClass)) {
+        tsBackButton.classList.replace(isClass, newClass);
+    }
+};
 // displays success/fail message and hides form
 const tsShowMessage = (message) => {
-    if (tsSuccessMessage) {
-        tsSuccessMessage.textContent = message;
+    if (tsMessage) {
+        tsMessage.textContent = message;
     }
     tsMessageContainer === null || tsMessageContainer === void 0 ? void 0 : tsMessageContainer.classList.remove("hidden");
     tsFormElement === null || tsFormElement === void 0 ? void 0 : tsFormElement.classList.add("hidden");
@@ -52,6 +60,7 @@ const tsShowMessage = (message) => {
 const tsBackButtonHandler = (e) => {
     e.preventDefault();
     tsResetForm();
+    tsChangeBackButtonClass(tsSuccessButtonClass, tsFailButtonClass);
 };
 // fires fetch and validates form
 const tsHandleSubmit = (e) => {
@@ -69,7 +78,8 @@ const tsHandleSubmit = (e) => {
                 .then((response) => response.json())
                 .then(() => {
                 if (tsIsValidColour(colour)) {
-                    tsShowMessage("Ugh, very well...");
+                    tsShowMessage(tsSuccessMessage);
+                    tsChangeBackButtonClass(tsFailButtonClass, tsSuccessButtonClass);
                 }
                 else {
                     tsShowMessage(tsFailMessage);

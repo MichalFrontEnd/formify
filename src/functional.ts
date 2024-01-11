@@ -6,9 +6,12 @@ const tsColourField: HTMLInputElement | null =
 const tsMessageContainer: HTMLDivElement | null = document.querySelector(
   ".message__container"
 );
-const tsSuccessMessage: HTMLParagraphElement | null =
+const tsMessage: HTMLParagraphElement | null =
   document.querySelector(".message__message");
 const tsFailMessage: string = "You shall not pass!";
+const tsSuccessMessage: string = "Ugh, very well...";
+const tsSuccessButtonClass: string = "btn-outline-primary";
+const tsFailButtonClass: string = "btn-outline-danger";
 const tsBackButton: HTMLButtonElement | null =
   document.querySelector(".message__btn");
 const tsValidColours: string[] = ["blue", "fuchsia", "coral"]; //only these colours will be accepted
@@ -50,10 +53,16 @@ const tsResetForm = (): void => {
   tsMessageContainer?.classList.add("hidden");
 };
 
+const tsChangeBackButtonClass = (isClass: string, newClass: string): void => {
+  if (tsBackButton?.classList.contains(isClass)) {
+    tsBackButton.classList.replace(isClass, newClass);
+  }
+};
+
 // displays success/fail message and hides form
 const tsShowMessage = (message: string): void => {
-  if (tsSuccessMessage) {
-    tsSuccessMessage.textContent = message;
+  if (tsMessage) {
+    tsMessage.textContent = message;
   }
   tsMessageContainer?.classList.remove("hidden");
   tsFormElement?.classList.add("hidden");
@@ -62,6 +71,7 @@ const tsShowMessage = (message: string): void => {
 const tsBackButtonHandler = (e: Event): void => {
   e.preventDefault();
   tsResetForm();
+  tsChangeBackButtonClass(tsSuccessButtonClass, tsFailButtonClass);
 };
 
 // fires fetch and validates form
@@ -82,7 +92,8 @@ const tsHandleSubmit = (e: Event): void => {
         .then((response: any) => response.json())
         .then(() => {
           if (tsIsValidColour(colour)) {
-            tsShowMessage("Ugh, very well...");
+            tsShowMessage(tsSuccessMessage);
+            tsChangeBackButtonClass(tsFailButtonClass, tsSuccessButtonClass);
           } else {
             tsShowMessage(tsFailMessage);
           }

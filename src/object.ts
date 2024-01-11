@@ -55,7 +55,6 @@ class oopForm {
       alert("Answers should only contain letters.");
       return false;
     }
-
     return true;
   }
 
@@ -70,6 +69,7 @@ class oopForm {
     this.messageContainer?.classList.add("hidden");
   }
 
+  //replaces the button styling
   changeBackButtonClass(isClass: string, newClass: string): void {
     if (this.backButton?.classList.contains(isClass)) {
       this.backButton.classList.replace(isClass, newClass);
@@ -77,24 +77,20 @@ class oopForm {
   }
 
   // displays success/fail message and hides form
-  showMessage(message: string, isError: boolean) {
+  showMessage(message: string) {
     // Display the message
     if (this.message) {
       this.message.textContent = message;
     }
     this.messageContainer?.classList.remove("hidden");
     this.formElement?.classList.add("hidden");
-
-    if (isError) {
-      this.changeBackButtonClass(this.successButtonClass, this.failButtonClass);
-    } else {
-      this.changeBackButtonClass(this.failButtonClass, this.successButtonClass);
-    }
   }
 
+  // resets form and back button
   backButtonHandler(e: Event): void {
     e.preventDefault();
     this.resetForm();
+    this.changeBackButtonClass(this.successButtonClass, this.failButtonClass);
   }
 
   // fires fetch and validates form
@@ -114,9 +110,13 @@ class oopForm {
           .then((response: any) => response.json())
           .then(() => {
             if (this.isValidColour(colour)) {
-              this.showMessage(this.successMessage, false);
+              this.changeBackButtonClass(
+                this.failButtonClass,
+                this.successButtonClass
+              );
+              this.showMessage(this.successMessage);
             } else {
-              this.showMessage(this.failMessage, true);
+              this.showMessage(this.failMessage);
             }
           })
           .catch((error: Error) => {
