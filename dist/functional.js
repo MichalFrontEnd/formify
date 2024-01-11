@@ -56,30 +56,30 @@ const tsBackButtonHandler = (e) => {
 // fires fetch and validates form
 const tsHandleSubmit = (e) => {
     e.preventDefault();
-    if (tsColourField) {
-        const colour = tsColourField.value;
-        fetch("https://jsonplaceholder.typicode.com/posts", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ colour }), // Assuming 'name' should be defined globally or passed as an argument
-        })
-            .then((response) => response.json())
-            .then(() => {
-            if (tsValidateInputs(tsInputElements)) {
+    if (tsValidateInputs(tsInputElements)) {
+        if (tsColourField) {
+            const colour = tsColourField.value;
+            fetch("https://jsonplaceholder.typicode.com/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ colour }), // Assuming 'name' should be defined globally or passed as an argument
+            })
+                .then((response) => response.json())
+                .then(() => {
                 if (tsIsValidColour(colour)) {
                     tsShowMessage("Ugh, very well...");
                 }
                 else {
                     tsShowMessage(tsFailMessage);
                 }
-            }
-        })
-            .catch((error) => {
-            console.error("Error:", error);
-            // Handle errors
-        });
+            })
+                .catch((error) => {
+                console.error("Error:", error);
+                // Handle errors
+            });
+        }
     }
 };
 // adds Event listeners
